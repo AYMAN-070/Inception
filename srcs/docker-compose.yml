@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  # NOTRE BASE DE DONNÉES
+  mariadb:
+    build: ./requirements/mariadb # Chemin vers le Dockerfile
+    [cite_start]image: mariadb # same name as service
+    [cite_start]container_name: mariadb
+    [cite_start]restart: always # security : restart containers if there is a crash
+    env_file: .env
+    networks:
+      - [cite_start]inception_network
+    volumes:
+      - [cite_start]mariadb_vol:/var/lib/mysql
+
+  # NOTRE SITE WEB
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    networks:
+      - inception_network
+    volumes:
+      - wordpress_vol:/var/www/html
+
+  # NOTRE PORTIER / SERVEUR WEB
+  nginx:
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    restart: always
+    env_file: .env
+    ports:
+      - [cite_start]"443:443" # This is the ONLY entry point, exclusively on secure port 443
+    networks:
+      - inception_network
+    volumes:
+      - wordpress_vol:/var/www/html # Nginx a besoin de voir les fichiers du site pour les afficher
+
+# CREATION OF THE PRIVATE NETWORK
+networks:
+  inception_network:
+    driver: bridge # Create a local network for the containers to communicate with each other
+
+# CREATION OF VOLUME
+volumes:
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      [cite_start]device: /home/ayhammou/data/mariadb
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      [cite_start]device: /home/ayhammou/data/wordpress
