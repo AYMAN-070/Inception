@@ -9,9 +9,9 @@ services:
     restart: always # security : restart containers if there is a crash
     env_file: .env
     networks:
-      inception_network
+      - inception_network
     volumes:
-      mariadb_vol:/var/lib/mysql
+      - mariadb_vol:/var/lib/mysql
 
   # NOTRE SITE WEB
   wordpress:
