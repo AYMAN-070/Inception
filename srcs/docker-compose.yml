@@ -4,14 +4,14 @@ services:
   # NOTRE BASE DE DONNÉES
   mariadb:
     build: ./requirements/mariadb # Chemin vers le Dockerfile
-    [cite_start]image: mariadb # same name as service
-    [cite_start]container_name: mariadb
-    [cite_start]restart: always # security : restart containers if there is a crash
+    image: mariadb # same name as service
+    container_name: mariadb
+    restart: always # security : restart containers if there is a crash
     env_file: .env
     networks:
-      - [cite_start]inception_network
+      inception_network
     volumes:
-      - [cite_start]mariadb_vol:/var/lib/mysql
+      mariadb_vol:/var/lib/mysql
 
   # NOTRE SITE WEB
   wordpress:
@@ -33,7 +33,7 @@ services:
     restart: always
     env_file: .env
     ports:
-      - [cite_start]"443:443" # This is the ONLY entry point, exclusively on secure port 443
+      "443:443" # This is the ONLY entry point, exclusively on secure port 443
     networks:
       - inception_network
     volumes:
@@ -51,10 +51,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      [cite_start]device: /home/ayhammou/data/mariadb
+      device: /home/ayhammou/data/mariadb
   wordpress_vol:
     driver: local
     driver_opts:
       type: none
       o: bind
-      [cite_start]device: /home/ayhammou/data/wordpress
+      device: /home/ayhammou/data/wordpress
