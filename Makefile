@@ -4,8 +4,8 @@ DATA_PATH = /home/ayhammou/data
 
 all: up
 up:
-	@mkdir -p $(DATA_PATH)/mariadb
-	@mkdir -p $(DATA_PATH)/wordpress
+	@sudo mkdir -p $(DATA_PATH)/mariadb
+	@sudo mkdir -p $(DATA_PATH)/wordpress
 	docker compose -f $(COMPOSE_FILE) up -d --build
 
 down:
