@@ -14,7 +14,7 @@ if [ ! -f "wp-config.php" ]; then
     wp config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb:3306 --allow-root
     
     # install WordPress
-    wp core install --url=$WP_URL --title="Mon Super Site Inception" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email="admin@42.fr" --allow-root
+    wp core install --url=https://$WP_URL --title="Mon Super Site Inception" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email="admin@42.fr" --allow-root
     
     # creat second standard user
     wp user create $WP_USER visiteur@42.fr --role=author --user_pass=$WP_USER_PASSWORD --allow-root
