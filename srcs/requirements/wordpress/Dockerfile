@@ -1,5 +1,4 @@
-
-FROM debian:bullseye
+FROM debian:bookworm
 
 RUN apt-get update -y && \
     apt-get install -y php7.4 php7.4-fpm php7.4-mysql wget tar bash mariadb-client

@@ -2,7 +2,6 @@ NAME = inception
 COMPOSE_FILE = ./srcs/docker-compose.yml
 DATA_PATH = /home/ayhammou/data
 
-all: up
 up:
 	@sudo mkdir -p $(DATA_PATH)/mariadb
 	@sudo mkdir -p $(DATA_PATH)/wordpress
@@ -11,15 +10,15 @@ up:
 down:
 	docker compose -f $(COMPOSE_FILE) down
 
+# clean just containers, network and images
+clean: 
+	docker compose -f $(COMPOSE_FILE) down --rmi all -v
 
-clean: down
-	docker system prune -af
-
+# clean and delete all files on the disk
 fclean: clean
-	docker volume rm $$(docker volume ls -q) 2>/dev/null || true
 	sudo rm -rf $(DATA_PATH)/mariadb/*
 	sudo rm -rf $(DATA_PATH)/wordpress/*
 
 re: fclean all
 
-.PHONY: all up down clean fclean re
+.PHONY: up down clean fclean re
